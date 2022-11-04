@@ -47,7 +47,8 @@ SITE_ID = 1
 REST_USE_JWT = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None # username 필드 사용 x
 ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
-ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_NICKNAME_REQUIRED = True# username 필드 사용 x
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False
@@ -79,6 +80,10 @@ REST_FRAMEWORK = {  # jwt
 
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER' : 'users.serializers.customRegistrationSerializer',
 }
 
 MIDDLEWARE = [
@@ -205,3 +210,6 @@ STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
+
+
+ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'

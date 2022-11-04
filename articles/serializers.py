@@ -27,11 +27,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields='__all__'
-# class ArticleListNickname(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = User
-#         fields=['nickname']
 
 
 class MovieLikeUserNickname(serializers.ModelSerializer):
