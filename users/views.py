@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
-from users.serializers import CustomTokenObtainPairSerializer, UserSerializer, UserProfileSerializer, UserUpdateSerializer
+from users.serializers import UserProfileSerializer, UserUpdateSerializer
 import os
 import requests
 from allauth.socialaccount.models import SocialAccount
@@ -34,10 +34,6 @@ class UserView(APIView):
         else:
             return Response("권한이 없습니다!", status=status.HTTP_403_FORBIDDEN)
 
-class CustomTokenObtainPairView(TokenObtainPairView): # jwt payload 커스텀
-    serializer_class = CustomTokenObtainPairSerializer
-    
-
 
 class ProfileView(APIView):  # 회원정보 조회
     def get(self, request, user_id):
@@ -45,16 +41,16 @@ class ProfileView(APIView):  # 회원정보 조회
         serializer = UserProfileSerializer(user)  
         return Response(serializer.data)
     
-    def delete(self, request, user_id): # 회원탈퇴
-        user = get_object_or_404(User, id=user_id)
-        if request.user == user:
-            request.user.delete()
-            return Response("탈퇴되었습니다!", status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response("권한이 없습니다!", status=status.HTTP_403_FORBIDDEN)
+    def put(self, request, user_id): # 회원정보 수정
+        user = User.objects.get(id=user_id)
+        serializer = UserUpdateSerializer(user, data=request.data, partial=True, context={"request": request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
-
-class ConfirmEmailView(APIView):
+class ConfirmEmailView(APIView): # 이메일 인증
     
     permission_classes = [AllowAny]
 
