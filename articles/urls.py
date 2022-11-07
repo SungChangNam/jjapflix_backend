@@ -3,6 +3,7 @@ from articles import views
 
 urlpatterns = [
     path('', views.ArticlesView.as_view(), name ='articles_view' ),
+    path('category/<int:category_id>/', views.ArticlesCategoryView.as_view(), name= 'category_view'),
     path('<int:movie_id>/', views.ArticlesDetailView.as_view(), name = 'articles_detail_view'),
     path('<int:movie_id>/like/', views.ArticlesMovieLikeView.as_view(), name = 'movie_like_view'),
     path('<int:movie_id>/comment/', views.ArticlesCommentView.as_view(), name = 'articles_comment_view'),

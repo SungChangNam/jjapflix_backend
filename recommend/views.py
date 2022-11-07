@@ -1,16 +1,13 @@
-from django.shortcuts import render, redirect
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from articles.models import Movie
-from django.db.models import Max
 from recommend.serializers import MovieSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import get_object_or_404
 
-trends = pd.read_csv('recommend/trend.csv')
-netflix = pd.read_csv('recommend/netflix.csv')
+trends = pd.read_csv('trend.csv')
+netflix = pd.read_csv('netflix.csv')
 
 movie_ratings = pd.merge(trends, netflix, on='movie_id')
 
@@ -31,7 +28,7 @@ class TasteView(APIView):
 class MovieRefresh(APIView):
     
     def get(self, request):
-        movie = Movie.objects.filter(rating__gt=3.5).order_by('?')
+        movie = Movie.objects.filter(rating__gt=0).order_by('?')
         movie = list(movie)[0:10]
         serializer = MovieSerializer(movie, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -26,6 +26,13 @@ class ArticlesDetailView(APIView): #영화상세보기(양기철님)
         movie = get_object_or_404(Movie, id=movie_id)
         serializer = ArticleDetailSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+class ArticlesCategoryView(APIView): # 영화 카테고리 분류
+    def get(self, request, category_id):
+        movie = Movie.objects.filter(category=category_id)
+        serializer = ArticleListSerializer(movie, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)    
 
 
 class ArticlesMovieLikeView(APIView): #영화좋아요(성창남님)
