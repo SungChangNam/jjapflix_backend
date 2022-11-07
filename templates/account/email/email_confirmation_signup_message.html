@@ -1,0 +1,31 @@
+{% load account %}
+{% load i18n %}
+{% block content %}
+{% autoescape off %}
+{% user_display user as user_display %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        귀하의 아이디는
+            <span style="font-weight:bold;">{{ user_display }}</span>
+        입니다.
+      </p>
+        
+      <a href="{{ activate_url }}" target="_blank">
+        계정 인증하기
+      </a>
+</body>
+</html>
+
+{% endblocktrans %}
+{% endautoescape %}
+{% endblock %}

@@ -1,0 +1,7 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('refresh/', views.MovieRefresh.as_view(), name='refresh'),
+    path('<int:movie_id>/', views.TasteView.as_view(), name='taste'),
+]
