@@ -28,12 +28,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    "corsheaders",
     'rest_framework',  # rest_framework
     'rest_framework.authtoken',
     'rest_framework_simplejwt', # jwt
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'users',
+    'recommend',
 
     'articles',
     
@@ -87,8 +89,10 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -213,3 +217,5 @@ MEDIA_URL = "/media/"
 
 
 ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
+
+CORS_ALLOW_ALL_ORIGINS = True

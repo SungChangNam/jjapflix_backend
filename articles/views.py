@@ -23,12 +23,9 @@ class ArticlesView(APIView):  #영화리스트(노우석님)
 
 class ArticlesDetailView(APIView): #영화상세보기(양기철님)
     def get(self, request, movie_id):
-        movie = Movie.objects.get(id=movie_id)
         movie = get_object_or_404(Movie, id=movie_id)
         serializer = ArticleDetailSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 
 
 class ArticlesMovieLikeView(APIView): #영화좋아요(성창남님)
@@ -41,10 +38,6 @@ class ArticlesMovieLikeView(APIView): #영화좋아요(성창남님)
             article.movie_like.add(request.user)
             return Response("좋아요했습니다", status=status.HTTP_200_OK)
             
-        
-
-
-
 
 class ArticlesCommentView(APIView): #영화리뷰(작성,수정,삭제)(노우석님)
 
@@ -103,5 +96,5 @@ class ArticlesSearchView(generics.ListAPIView): #검색(양기철님)
 
     filter_backends = [filters.SearchFilter]
     # 검색 키워드를 지정했을 때, 매칭을 시도할 필드
-    search_fields = ['title','description','category']
+    search_fields = ["category__name","title","description"]
 

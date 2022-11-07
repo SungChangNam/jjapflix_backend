@@ -110,6 +110,9 @@ def kakao_callback(request):
     if email is None:
         return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
     
+#     email_req_json = email_req.json()
+#     email = email_req_json.get('email')
+    
 
 # try:   # 전달받은 이메일로 등록된 유저가 있는지 탐색
 #     user = User.objects.get(email=email)
