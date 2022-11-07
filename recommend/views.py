@@ -17,7 +17,7 @@ user_title = user_title.fillna(0)
 item_based_collab = cosine_similarity(user_title, user_title)
 item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
 
-class TasteView(APIView):
+class TasteView(APIView): # 영화 추천 View
     
     def get(self, request, movie_id):
         movie_id_list = item_based_collab[movie_id].sort_values(ascending=False)[1:21]
@@ -25,7 +25,7 @@ class TasteView(APIView):
         movies = Movie.objects.filter(movie_id__in=movie_id_list)
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-class MovieRefresh(APIView):
+class MovieRefresh(APIView): # 영화 새로고침 View
     
     def get(self, request):
         movie = Movie.objects.filter(rating__gt=0).order_by('?')

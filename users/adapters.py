@@ -1,4 +1,5 @@
 from allauth.account.adapter import DefaultAccountAdapter
+from django.conf import settings
 
 class CustomAccountAdapter(DefaultAccountAdapter): # dj-rest-auth 커스텀
 

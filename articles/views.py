@@ -1,11 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
-from rest_framework import status, permissions
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.filters import SearchFilter
 from django.db.models.query_utils import Q
-from articles import serializers
 from articles.models import Comment,Movie
 
 from articles.serializers import ArticleSerializer,ArticleListSerializer,MovieCommentSerializer, ArticleDetailSerializer
@@ -14,14 +11,14 @@ from rest_framework import filters
 
 
 
-class ArticlesView(APIView):  #영화리스트(노우석님)
+class ArticlesView(APIView):  #영화 전체 리스트(노우석님)
     def get(self, request):
         articles = Movie.objects.all()
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class ArticlesDetailView(APIView): #영화상세보기(양기철님)
+class ArticlesDetailView(APIView): #영화 상세 보기(양기철님)
     def get(self, request, movie_id):
         movie = get_object_or_404(Movie, id=movie_id)
         serializer = ArticleDetailSerializer(movie)
@@ -35,7 +32,7 @@ class ArticlesCategoryView(APIView): # 영화 카테고리 분류
         return Response(serializer.data, status=status.HTTP_200_OK)    
 
 
-class ArticlesMovieLikeView(APIView): #영화좋아요(성창남님)
+class ArticlesMovieLikeView(APIView): #영화 좋아요(성창남님)
     def post(self, request,movie_id ):
         article = get_object_or_404(Movie, id=movie_id)
         if request.user in article.movie_like.all():
@@ -46,7 +43,7 @@ class ArticlesMovieLikeView(APIView): #영화좋아요(성창남님)
             return Response("좋아요했습니다", status=status.HTTP_200_OK)
             
 
-class ArticlesCommentView(APIView): #영화리뷰(작성,수정,삭제)(노우석님)
+class ArticlesCommentView(APIView): #영화 리뷰(작성)(노우석님)
 
     def post(self, request,movie_id):
 
@@ -58,7 +55,7 @@ class ArticlesCommentView(APIView): #영화리뷰(작성,수정,삭제)(노우�
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ArticlesCommentDetailView(APIView):
+class ArticlesCommentDetailView(APIView):  #영화 리뷰(수정,삭제)(노우석님)
 
     def put(self, request, movie_id, comment_id):
 
