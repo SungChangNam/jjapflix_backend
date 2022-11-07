@@ -30,16 +30,6 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
-
-
-class Taste(models.Model):
-    class Meta:
-        db_table = "taste"
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-
-
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
