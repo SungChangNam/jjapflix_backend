@@ -1,10 +1,17 @@
 from django.db import models
 from users.models import User
+from django.conf import settings
 
 # Create your models here.
 class Category(models.Model):
+    class Meta:
+        db_table = "category"
+    
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=256, default='')
+    
+    def __str__(self):
+        return self.name
 
 
 class Movie(models.Model):
@@ -17,7 +24,20 @@ class Movie(models.Model):
     rating = models.CharField(max_length =50) # rank
     description = models.TextField() # overview
     movie_like = models.ManyToManyField(User, related_name="like_movie",blank=True)
-    category = models.ManyToManyField(Category,symmetrical=False,related_name='movie')
+    category = models.ManyToManyField(Category,symmetrical=False,related_name='movies')
+    
+    
+    def __str__(self):
+        return self.title
+
+
+
+class Taste(models.Model):
+    class Meta:
+        db_table = "taste"
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
@@ -27,7 +47,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now= True)
     comment_like = models.ManyToManyField(User, related_name="like_comment",blank=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE,blank=True, related_name="movie_comment")
-    rating = models.CharField(max_length=10, blank=True)
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
     
     def __str__(self):
         return str(self.content)

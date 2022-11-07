@@ -16,7 +16,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields=('user', 'content','created_at', 'comment_like_count', 'rating',)
+        fields=('id','user', 'content','created_at', 'comment_like_count', 'rating',)
 
 
 
@@ -47,9 +47,6 @@ class ArticleListSerializer(serializers.ModelSerializer):
         model = Movie
         fields='__all__'
 
-
-    
-    
 
 
 class MovieCommentSerializer(serializers.ModelSerializer):
